@@ -412,10 +412,66 @@
 								"parameters": {}
 							}
 						}
+					},
+					{
+						"name": "CompanyName",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "LookupStoredProc",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "CompanyName",
+							"value": {
+								"value": "@activity('LookupStoredProc').output.firstRow.CompanyName",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "SalesPerson",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "LookupStoredProc",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "SalesPaerson",
+							"value": {
+								"value": "@activity('LookupStoredProc').output.firstRow.SalesPerson",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"CompanyName": {
+						"type": "String"
+					},
+					"SalesPaerson": {
+						"type": "String"
+					}
 				},
 				"annotations": []
 			},
