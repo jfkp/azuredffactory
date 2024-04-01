@@ -1,0 +1,9 @@
+{
+	"name": "jfkappfactory",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e4f156f1-8d88-42f4-8c7f-bfd740b58985",
+		"tenantId": "84a66631-a8e1-4816-a202-1b09799f1a2d"
+	}
+}

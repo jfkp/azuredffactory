@@ -1,0 +1,17 @@
+{
+	"name": "app_vm_server",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "C:\\Users\\jfkadmin\\Downloads\\nginx-1.25.4\\nginx-1.25.4\\logs",
+			"userId": "jfkadmin",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJlYTZjNzI3Yi1kN2IzLTRmMjQtYjU1YS1jZGM4MGExZTVhNTUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "appvmruntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

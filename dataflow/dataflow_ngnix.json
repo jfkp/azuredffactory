@@ -1,0 +1,87 @@
+{
+	"name": "dataflow_ngnix",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Accesslogngnix",
+						"type": "DatasetReference"
+					},
+					"name": "ngnixlogfromdsstream"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ServerLogsTable",
+						"type": "DatasetReference"
+					},
+					"name": "ServerLogsStream"
+				}
+			],
+			"transformations": [
+				{
+					"name": "selectcolumnngnix"
+				},
+				{
+					"name": "derivedColumn1localtime"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {127.0.0.1} as string,",
+				"          {-1} as string,",
+				"          {-2} as string,",
+				"          {[01/Apr/2024:09:37:43} as string,",
+				"          {+0000]} as string,",
+				"          {GET / HTTP/1.1} as string,",
+				"          {200} as string,",
+				"          {615} as string,",
+				"          {-8} as string,",
+				"          {Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> ngnixlogfromdsstream",
+				"ngnixlogfromdsstream select(mapColumn(",
+				"          Remote_addr = {127.0.0.1},",
+				"          Time_local = {[01/Apr/2024:09:37:43},",
+				"          Request = {GET / HTTP/1.1},",
+				"          Status = {200},",
+				"          Bytes = {615}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectcolumnngnix",
+				"selectcolumnngnix derive(Time_local = substring(Time_local,2,length(Time_local) -1)) ~> derivedColumn1localtime",
+				"derivedColumn1localtime sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Remote_addr as string,",
+				"          Time_local as string,",
+				"          Request as string,",
+				"          Status as integer,",
+				"          Bytes as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Remote_addr,",
+				"          Time_local,",
+				"          Request,",
+				"          Status,",
+				"          Bytes",
+				"     )) ~> ServerLogsStream"
+			]
+		}
+	}
+}

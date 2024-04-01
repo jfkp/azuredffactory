@@ -1,0 +1,12 @@
+{
+	"name": "jfkworkspacesynapce_pool",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDW",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=jfkworkspacesynapce.sql.azuresynapse.net;initial catalog=jfkdedicatedsqlpool;user id=jfkadmin",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDdGMTZCOTJDLUIyQjMtNDk2Ny04QUJGLUU1MDZDOEEwRTU3M181ZDc0ZGI4Ni0zOWU5LTRjODYtYTU1My1hZmVhYWM3ZGExM2UiDQp9"
+		}
+	}
+}
