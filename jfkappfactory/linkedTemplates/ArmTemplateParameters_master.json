@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "jfkappfactory"
+		},
+		"app_vm_server_password": {
+			"value": ""
+		},
+		"datalakegen2jfk_service_accountKey": {
+			"value": ""
+		},
+		"jfk_appdb_service_connectionString": {
+			"value": ""
+		},
+		"jfkworkspacesynapce_pool_connectionString": {
+			"value": ""
+		},
+		"app_vm_server_properties_typeProperties_host": {
+			"value": "C:\\Users\\jfkadmin\\Downloads\\nginx-1.25.4\\nginx-1.25.4\\logs"
+		},
+		"app_vm_server_properties_typeProperties_userId": {
+			"value": "jfkadmin"
+		},
+		"datalakegen2jfk_service_properties_typeProperties_url": {
+			"value": "https://datalakegen2jfk.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

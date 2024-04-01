@@ -1,0 +1,131 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nom de fabrique de données",
+			"defaultValue": "jfkappfactory"
+		},
+		"app_vm_server_password": {
+			"type": "secureString",
+			"metadata": "Chaîne sécurisée pour « password » de « app_vm_server »"
+		},
+		"datalakegen2jfk_service_accountKey": {
+			"type": "secureString",
+			"metadata": "Chaîne sécurisée pour « accountKey » de « datalakegen2jfk_service »"
+		},
+		"jfk_appdb_service_connectionString": {
+			"type": "secureString",
+			"metadata": "Chaîne sécurisée pour « connectionString » de « jfk_appdb_service »"
+		},
+		"jfkworkspacesynapce_pool_connectionString": {
+			"type": "secureString",
+			"metadata": "Chaîne sécurisée pour « connectionString » de « jfkworkspacesynapce_pool »"
+		},
+		"app_vm_server_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "C:\\Users\\jfkadmin\\Downloads\\nginx-1.25.4\\nginx-1.25.4\\logs"
+		},
+		"app_vm_server_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "jfkadmin"
+		},
+		"datalakegen2jfk_service_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datalakegen2jfk.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI pour le compte de stockage contenant des modèles ARM liés"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Jeton SAS pour le compte de stockage contenant des modèles ARM liés"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "jfkappfactory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"datalakegen2jfk_service_accountKey": {
+						"value": "[parameters('datalakegen2jfk_service_accountKey')]"
+					},
+					"jfk_appdb_service_connectionString": {
+						"value": "[parameters('jfk_appdb_service_connectionString')]"
+					},
+					"jfkworkspacesynapce_pool_connectionString": {
+						"value": "[parameters('jfkworkspacesynapce_pool_connectionString')]"
+					},
+					"datalakegen2jfk_service_properties_typeProperties_url": {
+						"value": "[parameters('datalakegen2jfk_service_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "jfkappfactory_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"app_vm_server_password": {
+						"value": "[parameters('app_vm_server_password')]"
+					},
+					"app_vm_server_properties_typeProperties_host": {
+						"value": "[parameters('app_vm_server_properties_typeProperties_host')]"
+					},
+					"app_vm_server_properties_typeProperties_userId": {
+						"value": "[parameters('app_vm_server_properties_typeProperties_userId')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'jfkappfactory_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "jfkappfactory_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'jfkappfactory_ArmTemplate_1')]"
+			]
+		}
+	]
+}
