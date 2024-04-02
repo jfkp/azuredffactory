@@ -61,7 +61,14 @@
 						"type": "SqlDWSink",
 						"allowCopyCommand": true
 					},
-					"enableStaging": false,
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "datalakegen2jfk_service",
+							"type": "LinkedServiceReference"
+						},
+						"path": "staging"
+					},
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
