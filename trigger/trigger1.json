@@ -2,7 +2,7 @@
 	"name": "trigger1",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipelines": [
 			{
 				"pipelineReference": {
@@ -14,7 +14,7 @@
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
 			"blobPathBeginsWith": "/stagingmetrics/blobs/PT1H",
-			"ignoreEmptyBlobs": true,
+			"ignoreEmptyBlobs": false,
 			"scope": "/subscriptions/5b23d2d2-b0a2-4b60-856a-131d7b3b4aef/resourceGroups/azure-data-rg/providers/Microsoft.Storage/storageAccounts/datalakegen2jfk",
 			"events": [
 				"Microsoft.Storage.BlobCreated"
