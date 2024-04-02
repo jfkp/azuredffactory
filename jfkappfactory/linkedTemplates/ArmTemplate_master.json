@@ -35,6 +35,10 @@
 			"type": "string",
 			"defaultValue": "https://datalakegen2jfk.dfs.core.windows.net/"
 		},
+		"trigger1_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/5b23d2d2-b0a2-4b60-856a-131d7b3b4aef/resourceGroups/azure-data-rg/providers/Microsoft.Storage/storageAccounts/datalakegen2jfk"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -140,6 +144,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"trigger1_properties_typeProperties_scope": {
+						"value": "[parameters('trigger1_properties_typeProperties_scope')]"
 					}
 				}
 			},

@@ -34,6 +34,10 @@
 		"datalakegen2jfk_service_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://datalakegen2jfk.dfs.core.windows.net/"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/5b23d2d2-b0a2-4b60-856a-131d7b3b4aef/resourceGroups/azure-data-rg/providers/Microsoft.Storage/storageAccounts/datalakegen2jfk"
 		}
 	},
 	"variables": {
@@ -4949,6 +4953,36 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/jfkworkspacesynapce_pool')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pipemetrics",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/stagingmetrics/blobs/PT1H",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('trigger1_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pipemetrics')]"
 			]
 		}
 	]
