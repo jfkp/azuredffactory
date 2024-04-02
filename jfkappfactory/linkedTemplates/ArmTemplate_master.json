@@ -4,24 +4,24 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Nom de fabrique de données",
+			"metadata": "Data Factory name",
 			"defaultValue": "jfkappfactory"
 		},
 		"app_vm_server_password": {
 			"type": "secureString",
-			"metadata": "Chaîne sécurisée pour « password » de « app_vm_server »"
+			"metadata": "Secure string for 'password' of 'app_vm_server'"
 		},
 		"datalakegen2jfk_service_accountKey": {
 			"type": "secureString",
-			"metadata": "Chaîne sécurisée pour « accountKey » de « datalakegen2jfk_service »"
+			"metadata": "Secure string for 'accountKey' of 'datalakegen2jfk_service'"
 		},
 		"jfk_appdb_service_connectionString": {
 			"type": "secureString",
-			"metadata": "Chaîne sécurisée pour « connectionString » de « jfk_appdb_service »"
+			"metadata": "Secure string for 'connectionString' of 'jfk_appdb_service'"
 		},
 		"jfkworkspacesynapce_pool_connectionString": {
 			"type": "secureString",
-			"metadata": "Chaîne sécurisée pour « connectionString » de « jfkworkspacesynapce_pool »"
+			"metadata": "Secure string for 'connectionString' of 'jfkworkspacesynapce_pool'"
 		},
 		"app_vm_server_properties_typeProperties_host": {
 			"type": "string",
@@ -37,11 +37,11 @@
 		},
 		"containerUri": {
 			"type": "string",
-			"metadata": "URI pour le compte de stockage contenant des modèles ARM liés"
+			"metadata": "URI to storage account containing linked ARM templates"
 		},
 		"containerSasToken": {
 			"type": "string",
-			"metadata": "Jeton SAS pour le compte de stockage contenant des modèles ARM liés"
+			"metadata": "Sas token to storage account containing linked ARM templates"
 		}
 	},
 	"variables": {
@@ -125,6 +125,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'jfkappfactory_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "jfkappfactory_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'jfkappfactory_ArmTemplate_2')]"
 			]
 		}
 	]

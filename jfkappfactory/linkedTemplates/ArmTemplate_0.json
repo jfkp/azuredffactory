@@ -4,20 +4,20 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Nom de fabrique de données",
+			"metadata": "Data Factory name",
 			"defaultValue": "jfkappfactory"
 		},
 		"datalakegen2jfk_service_accountKey": {
 			"type": "secureString",
-			"metadata": "Chaîne sécurisée pour « accountKey » de « datalakegen2jfk_service »"
+			"metadata": "Secure string for 'accountKey' of 'datalakegen2jfk_service'"
 		},
 		"jfk_appdb_service_connectionString": {
 			"type": "secureString",
-			"metadata": "Chaîne sécurisée pour « connectionString » de « jfk_appdb_service »"
+			"metadata": "Secure string for 'connectionString' of 'jfk_appdb_service'"
 		},
 		"jfkworkspacesynapce_pool_connectionString": {
 			"type": "secureString",
-			"metadata": "Chaîne sécurisée pour « connectionString » de « jfkworkspacesynapce_pool »"
+			"metadata": "Secure string for 'connectionString' of 'jfkworkspacesynapce_pool'"
 		},
 		"datalakegen2jfk_service_properties_typeProperties_url": {
 			"type": "string",
@@ -851,6 +851,29 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Json1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalakegen2jfk_service",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "stagingmetricsoutput"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalakegen2jfk_service')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Jsonlogdata')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -868,75 +891,6 @@
 					}
 				},
 				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalakegen2jfk_service')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "datalakegen2jfk_service",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "parquet"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "Correlationid",
-						"type": "UTF8"
-					},
-					{
-						"name": "Operationname",
-						"type": "UTF8"
-					},
-					{
-						"name": "Status",
-						"type": "UTF8"
-					},
-					{
-						"name": "Eventcategory",
-						"type": "UTF8"
-					},
-					{
-						"name": "Level",
-						"type": "UTF8"
-					},
-					{
-						"name": "Time",
-						"type": "INT96"
-					},
-					{
-						"name": "Subscription",
-						"type": "UTF8"
-					},
-					{
-						"name": "Eventinitiatedby",
-						"type": "UTF8"
-					},
-					{
-						"name": "Resourcetype",
-						"type": "UTF8"
-					},
-					{
-						"name": "Resourcegroup",
-						"type": "UTF8"
-					},
-					{
-						"name": "Resource",
-						"type": "UTF8"
-					}
-				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalakegen2jfk_service')]"

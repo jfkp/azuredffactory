@@ -4,24 +4,24 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Nom de fabrique de données",
+			"metadata": "Data Factory name",
 			"defaultValue": "jfkappfactory"
 		},
 		"app_vm_server_password": {
 			"type": "secureString",
-			"metadata": "Chaîne sécurisée pour « password » de « app_vm_server »"
+			"metadata": "Secure string for 'password' of 'app_vm_server'"
 		},
 		"datalakegen2jfk_service_accountKey": {
 			"type": "secureString",
-			"metadata": "Chaîne sécurisée pour « accountKey » de « datalakegen2jfk_service »"
+			"metadata": "Secure string for 'accountKey' of 'datalakegen2jfk_service'"
 		},
 		"jfk_appdb_service_connectionString": {
 			"type": "secureString",
-			"metadata": "Chaîne sécurisée pour « connectionString » de « jfk_appdb_service »"
+			"metadata": "Secure string for 'connectionString' of 'jfk_appdb_service'"
 		},
 		"jfkworkspacesynapce_pool_connectionString": {
 			"type": "secureString",
-			"metadata": "Chaîne sécurisée pour « connectionString » de « jfkworkspacesynapce_pool »"
+			"metadata": "Secure string for 'connectionString' of 'jfkworkspacesynapce_pool'"
 		},
 		"app_vm_server_properties_typeProperties_host": {
 			"type": "string",
@@ -2509,6 +2509,29 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Json1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalakegen2jfk_service",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "stagingmetricsoutput"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalakegen2jfk_service')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Jsonlogdata')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3312,6 +3335,60 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/jfk_appdb_service')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Stagemetricsource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalakegen2jfk_service",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "stagingmetrics"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"total": {
+							"type": "number"
+						},
+						"minimum": {
+							"type": "number"
+						},
+						"maximum": {
+							"type": "number"
+						},
+						"average": {
+							"type": "number"
+						},
+						"resourceId": {
+							"type": "string"
+						},
+						"time": {
+							"type": "string"
+						},
+						"metricName": {
+							"type": "string"
+						},
+						"timeGrain": {
+							"type": "string"
+						},
+						"count": {
+							"type": "integer"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalakegen2jfk_service')]"
 			]
 		},
 		{
@@ -4346,6 +4423,74 @@
 				"[concat(variables('factoryId'), '/datasets/ProductCategoryTable')]",
 				"[concat(variables('factoryId'), '/datasets/CustomeTableDim')]",
 				"[concat(variables('factoryId'), '/datasets/DimProductTale')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Stagemetricsource",
+								"type": "DatasetReference"
+							},
+							"name": "stagingmetricsstream"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Json1",
+								"type": "DatasetReference"
+							},
+							"name": "stagingoutputstream"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          total as double,",
+						"          minimum as double,",
+						"          maximum as double,",
+						"          average as double,",
+						"          resourceId as string,",
+						"          time as string,",
+						"          metricName as string,",
+						"          timeGrain as string,",
+						"          count as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine') ~> stagingmetricsstream",
+						"stagingmetricsstream select(mapColumn(",
+						"          average,",
+						"          time,",
+						"          metricName",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> stagingoutputstream"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Stagemetricsource')]",
+				"[concat(variables('factoryId'), '/datasets/Json1')]"
 			]
 		},
 		{
