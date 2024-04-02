@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "part-00000-65b933c6-2c25-4ec6-900d-c688b689f757-c000.json",
 				"fileSystem": "stagingmetricsoutput"
 			}
 		},
