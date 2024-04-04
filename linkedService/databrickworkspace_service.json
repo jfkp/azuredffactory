@@ -1,0 +1,13 @@
+{
+	"name": "databrickworkspace_service",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-8167052981889758.18.azuredatabricks.net",
+			"authentication": "MSI",
+			"workspaceResourceId": "/subscriptions/5b23d2d2-b0a2-4b60-856a-131d7b3b4aef/resourceGroups/azure-data-rg/providers/Microsoft.Databricks/workspaces/databrickworkspace",
+			"existingClusterId": "0404-095023-2tpdzvdx"
+		}
+	}
+}
