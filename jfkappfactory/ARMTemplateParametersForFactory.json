@@ -23,6 +23,9 @@
 		"app_vm_server_properties_typeProperties_userId": {
 			"value": "jfkadmin"
 		},
+		"databrickworkspace_service_properties_typeProperties_existingClusterId": {
+			"value": "0404-095023-2tpdzvdx"
+		},
 		"datalakegen2jfk_service_properties_typeProperties_url": {
 			"value": "https://datalakegen2jfk.dfs.core.windows.net/"
 		},

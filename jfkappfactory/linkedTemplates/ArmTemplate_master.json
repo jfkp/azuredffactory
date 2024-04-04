@@ -31,6 +31,10 @@
 			"type": "string",
 			"defaultValue": "jfkadmin"
 		},
+		"databrickworkspace_service_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0404-095023-2tpdzvdx"
+		},
 		"datalakegen2jfk_service_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://datalakegen2jfk.dfs.core.windows.net/"
@@ -75,6 +79,9 @@
 					"jfkworkspacesynapce_pool_connectionString": {
 						"value": "[parameters('jfkworkspacesynapce_pool_connectionString')]"
 					},
+					"databrickworkspace_service_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('databrickworkspace_service_properties_typeProperties_existingClusterId')]"
+					},
 					"datalakegen2jfk_service_properties_typeProperties_url": {
 						"value": "[parameters('datalakegen2jfk_service_properties_typeProperties_url')]"
 					}
@@ -95,15 +102,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"app_vm_server_password": {
-						"value": "[parameters('app_vm_server_password')]"
-					},
-					"app_vm_server_properties_typeProperties_host": {
-						"value": "[parameters('app_vm_server_properties_typeProperties_host')]"
-					},
-					"app_vm_server_properties_typeProperties_userId": {
-						"value": "[parameters('app_vm_server_properties_typeProperties_userId')]"
 					}
 				}
 			},
@@ -124,6 +122,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"app_vm_server_password": {
+						"value": "[parameters('app_vm_server_password')]"
+					},
+					"app_vm_server_properties_typeProperties_host": {
+						"value": "[parameters('app_vm_server_properties_typeProperties_host')]"
+					},
+					"app_vm_server_properties_typeProperties_userId": {
+						"value": "[parameters('app_vm_server_properties_typeProperties_userId')]"
 					}
 				}
 			},
